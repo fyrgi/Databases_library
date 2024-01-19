@@ -1,0 +1,66 @@
+--Due to inaccurate dump (only media was in there), please refer to this database--
+CREATE DATABASE Library;
+USE LIBRARY;
+
+CREATE TABLE IF NOT EXISTS
+	media
+(
+	id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	title VARCHAR(255) NOT NULL,
+	author VARCHAR(500) DEFAULT NULL,
+	media_type VARCHAR(20),
+	reserved TINYINT(1),
+	available TINYINT(1)
+);
+
+
+CREATE TABLE IF NOT EXISTS
+	user
+(
+	id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	full_name VARCHAR(255) NOT NULL,
+	email VARCHAR(255) NOT NULL UNIQUE,
+	password VARCHAR(255) NOT NULL,
+	date_created DATE,
+	last_updated DATE DEFAULT NULL
+);
+
+CREATE TABLE IF NOT EXISTS
+	user_loaned_items
+(
+	id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	id_user INT NOT NULL,
+	id_media INT NOT NULL,
+	loaned DATETIME,
+	returned DATETIME DEFAULT NULL,
+	FOREIGN KEY (id_user) REFERENCES user(id),
+	FOREIGN KEY (id_media) REFERENCES media(id)
+);
+
+CREATE TABLE IF NOT EXISTS
+	user_reserved_items
+(
+	id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	id_user INT NOT NULL,
+	id_media INT NOT NULL,
+	reserved DATE,
+	pick_up_by DATE,
+	FOREIGN KEY (id_user) REFERENCES user(id),
+	FOREIGN KEY (id_media) REFERENCES media(id)
+);
+
+INSERT INTO user SET full_name = "Martin", email = "martin", password = "1234", date_created = CURDATE();
+
+INSERT INTO media SET title = "The way of the kinds. Book 1 The Stormlight Archive", media_type = "book", author = "Brandon Sanderson", available = 1, reserved = 0;
+INSERT INTO media SET title = "Words of Radiance. Book 2 The Stormlight Archive", media_type = "book", author = "Brandon Sanderson", available = 1, reserved = 0;
+INSERT INTO media SET title = "Oathbringer. Book 3 The Stormlight Archive", media_type = "book", author = "Brandon Sanderson", available = 1, reserved = 0;
+INSERT INTO media SET title = "Rhythm of War. Book 5 The Stormlight Archive", media_type = "book", author = "Brandon Sanderson", available = 1, reserved = 0;
+INSERT INTO media SET title = "Edgedancer (novella). Book 2.5 The Stormlight Archive", media_type = "book", author = "Brandon Sanderson", available = 1, reserved = 0;
+INSERT INTO media SET title = "Dawnshard (novella). Book 3.5 The Stormlight Archive", media_type = "book", author = "Brandon Sanderson", available = 1, reserved = 0;
+INSERT INTO media SET title = "Moving pictures", media_type = "book", author = "Terry Pratchett", available = 1, reserved = 0;
+INSERT INTO media SET title = "Good Omens: The Nice and Accurate Prophecies of Agnes Nutter, Witch", media_type = "book", author = "Terry Pratchett, Neil Geiman", available = 1, reserved = 0;
+INSERT INTO media SET title = "Good Omens", media_type = "series", author = "Douglas Mackinnon", available = 1, reserved = 0;
+INSERT INTO media SET title = "Frozen", media_type = "movie", author = "Chris Buck", available = 1, reserved = 0;
+INSERT INTO media SET title = "The Little Prince", media_type = "audio book", author = "Antoine de Saint-Exupéry", available = 1, reserved = 0;
+INSERT INTO media SET title = "The Little Prince", media_type = "digital book", author = "Antoine de Saint-Exupéry", available = 1, reserved = 0;
+
